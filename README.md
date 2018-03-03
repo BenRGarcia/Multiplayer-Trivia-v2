@@ -1,21 +1,35 @@
-# multiplayer-trivia
+# Multiplayer Trivia
 
-> Multiplayer Trivia game using Vue.js webpack template, Vuex, Firebase, and Bootstrap v4
+> Multiplayer Trivia game using Vue.js webpack template, Vuex, firebase, and Bootstrap v4
 
-## Build Setup
+Click [here]() to see the live site
 
-``` bash
-# install dependencies
-npm install
+## Description
 
-# serve with hot reload at localhost:8080
-npm run dev
+* Usage of Vue.js CLI webpack template, vue-router, vuex, vuefire, firebase, and Bootstrap v4
 
-# build for production with minification
-npm run build
+### 3 page web app:
 
-# build for production and view the bundle analyzer report
-npm run build --report
-```
+1. ```/#/home```
+   * Leaderboard component
 
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+2. ```/#/play```
+   * Timer countdown component
+   * Question/Answer choices component
+   * Individual player stats component
+   * Create/change player name component
+   * Fully functional chat component
+
+3. ```/#/admin```
+   * For the trivia group leader who wants to play Go... I mean... 'Alex Trebek'
+   * Post the next question component
+   * Set timer countdown seconds component
+   * Overall player stats component
+   * Database maintenence dashboard (delete chat history, reset all players to 0 points, delete all players)
+
+## Gameplay
+
+1. Choose who wants to be the trivia host, send them to the ```/#/admin``` page
+2. All other participants go to the ```/#/play``` page
+3. Trivia host will 'post next question' which starts the timer countdown
+4. Points are awarded to the players with the correct answers when the timer runs out
