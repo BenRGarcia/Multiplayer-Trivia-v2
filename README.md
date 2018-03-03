@@ -1,8 +1,8 @@
 # Multiplayer Trivia
 
-> Multiplayer Trivia game using Vue.js webpack template, Vuex, firebase, and Bootstrap v4
+> A fun-for-all trivia game
 
-Click [here]() to see the live site
+Click [here](https://benrgarcia.github.io/Multiplayer-Trivia-v2/) to see the live site
 
 ## Description
 
