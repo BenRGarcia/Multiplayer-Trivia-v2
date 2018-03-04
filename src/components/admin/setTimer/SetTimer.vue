@@ -18,7 +18,7 @@
         
         </div>
       </form>
-      <button @click="setTimer" class="btn btn-primary">Set Timer Seconds</button>
+      <button @click="" class="btn btn-primary">Set Timer Seconds</button>
     </div>
   </div>
 </template>
