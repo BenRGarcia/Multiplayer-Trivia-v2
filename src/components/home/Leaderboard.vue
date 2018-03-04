@@ -29,9 +29,6 @@
 import Leader from './Leader'
 
 export default {
-  props: [
-    "players"
-  ],
   components: {
     Leader
   },
