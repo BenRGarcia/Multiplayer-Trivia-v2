@@ -1,0 +1,11 @@
+@font-face {
+  font-family: 'Roboto Slab';
+  src: url('../fonts/RobotoSlab-Regular.ttf');
+}
+
+body {
+  background: url('../images/doodles.png');
+  background-attachment: fixed;
+  text-align: center;
+  font-family: "Roboto Slab";
+}
