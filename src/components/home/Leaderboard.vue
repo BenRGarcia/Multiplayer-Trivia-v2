@@ -1,13 +1,50 @@
 <template>
-  
+  <div class="row">
+    <div :class="leaderboardClasses">
+      <div class="card">
+        <div class="card-body p-0">
+          <h3 class="mt-1 mb-1">LEADERBOARD</h3>
+          <table class="table table-sm">
+            <thead class="thead-dark">
+              <tr>
+                <th scope="col">Ranking</th>
+                <th scope="col">Name</th>
+                <th scope="col">Points</th>
+              </tr>
+            </thead>
+            <tbody>
+
+              <!-- Each Leader in Leaderboard -->
+              <Leader/>
+
+            </tbody>
+          </table>  
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
-export default {
+import Leader from './Leader'
 
+export default {
+  props: [
+    "players"
+  ],
+  components: {
+    Leader
+  },
+  data() {
+    return {
+      // Bootstrap Grid
+      leaderboardClasses: [
+        "col-12",                   // xs screens
+        "col-sm-10", "offset-sm-1", // sm screens
+        "col-md-8", "offset-md-2",  // md screens
+        "col-lg-6", "offset-lg-3"   // lg screens
+      ]
+    }
+  }
 }
 </script>
-
-<style scoped>
-
-</style>
