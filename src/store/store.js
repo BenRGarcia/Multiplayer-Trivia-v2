@@ -12,6 +12,7 @@ Vue.use(VueFire);
 Vue.use(firebase);
 
 const db = firebase.db;
+// Define db refs
 const qBankRef   = db.ref('/questionBank');
 const triviaRef  = db.ref('/trivia');
 const timerRef   = db.ref('/timer');
