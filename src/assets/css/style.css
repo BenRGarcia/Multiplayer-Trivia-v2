@@ -9,3 +9,8 @@ body {
   text-align: center;
   font-family: "Roboto Slab";
 }
+
+.card {
+  border: 3px solid #000;
+  overflow: scroll;
+}
