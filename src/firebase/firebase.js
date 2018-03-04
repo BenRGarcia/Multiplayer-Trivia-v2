@@ -13,5 +13,5 @@ var config = {
 firebase.initializeApp(config);
 
 export default {
-  database: firebase.database()
+  db: firebase.database()
 }
