@@ -1,7 +1,7 @@
 <template>
     <div>
       <div class="row">
-        <div class="col">
+        <div class="col mb-3">
 
           <!-- Bootstrap Card that contains Timer + Question + Answer Choices -->
           <Trivia/>
