@@ -1,13 +1,12 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import VueFire from 'vuefire'
+// import { firebaseMutations } from 'vuexfire'
+// import { firebaseAction } from 'vuexfire'
 import firebase from '../firebase/firebase'
 import { timer } from './modules/timer'
 
 // Vuex for centralized store for components
 Vue.use(Vuex);
-// Vuefire for vue/firebase bindings
-Vue.use(VueFire);
 // firebase db
 Vue.use(firebase);
 
@@ -20,16 +19,21 @@ const chatRef    = db.ref('/chat');
 const playersRef = db.ref('/players');
 
 export const store = new Vuex.Store({
+  strict: true,
   state: {
-
+    chat: null,
+    players: null,
+    questionBank: [],
+    timer: null,
+    trivia: null
   },
   getters: {
 
   },
   mutations: {
-
+    
   },
   actions: {
-
+    
   }
 });
