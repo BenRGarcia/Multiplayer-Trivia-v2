@@ -11,6 +11,13 @@ Vue.use(VueFire);
 // firebase db
 Vue.use(firebase);
 
+const db = firebase.db;
+const qBankRef   = db.ref('/questionBank');
+const triviaRef  = db.ref('/trivia');
+const timerRef   = db.ref('/timer');
+const chatRef    = db.ref('/chat');
+const playersRef = db.ref('/players');
+
 export const store = new Vuex.Store({
   state: {
 
@@ -24,4 +31,4 @@ export const store = new Vuex.Store({
   actions: {
 
   }
-})
+});
