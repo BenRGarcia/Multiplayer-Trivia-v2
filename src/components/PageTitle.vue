@@ -22,7 +22,7 @@
 export default {
   data() {
     return {
-      url: "https://github.com/BenRGarcia/multiplayer-trivia",
+      url: "https://github.com/BenRGarcia/Multiplayer-Trivia-v2",
       linkText: "View Source Code",
       headingText: "TRIVIA",
       headingClasses: ["display-3", "mb-0", "title"]
