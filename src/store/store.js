@@ -52,6 +52,45 @@ export const store = new Vuex.Store({
       choices.splice(randomIndex, 0, state._trivia.correct_answer);
       return choices;
     },
+    getPoints: function (state) {
+      let key;
+      if (localStorage.getItem("playerKey")) {
+        key = localStorage.getItem("playerKey");
+      }
+      return state._players[key] 
+        ? state._players[key].points
+        : "-";
+    },
+    getRank(state) {
+      let key;
+      let sortedArray;
+      let rank;
+      // Create sorted array if player exists
+      if (localStorage.getItem("playerKey")) {
+        // Get key from local storage if it exists
+        key = localStorage.getItem("playerKey");
+        // Created a sorted array of all players (sort by points)
+        sortedArray = Object.values(state._players).sort( 
+          (a, b) => b.points - a.points 
+        );
+        // Find player name in sorted array, index points to rank
+        for (let i = 0; i < sortedArray.length; i++) {
+          if (sortedArray[i].name === state._players[key].name) {
+            rank = i + 1;
+          }
+        }
+      }
+      return state._players[key]
+        ? rank
+        : "-";
+    },
+    getName(state) {
+      let key = localStorage.getItem("playerKey");
+
+      return state._players[key]
+        ? state._players[key].name
+        : "Create Player Name";
+    },
     getSecondsInitial: function (state) {
       return state._timer.initial;
     },
@@ -87,22 +126,16 @@ export const store = new Vuex.Store({
   actions: {
     // Add playerName to database, or change name if key exists
     setPlayerName(context, payload) {
-      console.log(`so was I!`);
-      console.log(payload);
       // playerKey already exists, or get a new one
       let playerKey = localStorage.getItem("playerKey") || firebase.database().ref('/players').push().key;
-      let points;
-
-      console.log(context.state._players);
-
       // Existing players keep current points
-      for (let player of context.state._players) {
-        if (playerKey === player[".key"]) {
-          points = player.points;
-        }
+      let points;
+      if (context.state._players[playerKey]) {
+        points = context.state._players[playerKey].points;
       }
+
       // In case playerKey was not present, send to localStorage
-      /*localStorage.setItem("playerKey", playerKey);
+      localStorage.setItem("playerKey", playerKey);
       // Create new object to post to db
       let newPlayer = {};
       // Add key/value of newPlayerKey
@@ -110,7 +143,7 @@ export const store = new Vuex.Store({
         name: payload,
         points: points || 0
       };
-      return firebase.database().ref('/players').update(newPlayer);*/
+      return firebase.database().ref('/players').update(newPlayer);
     },
     sendMessage(context, payload) {
       // Get firebase key for new message

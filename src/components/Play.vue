@@ -36,8 +36,10 @@ export default {
     Stats,
     Chat
   },
-  created() {
-    return this.$store.dispatch("getFirebasePlayers");
+  mounted: function() {
+    if (localStorage.getItem("playerKey") === null) {
+      return $('#playerNameModal').modal('show');
+    }
   }
 }
 </script>

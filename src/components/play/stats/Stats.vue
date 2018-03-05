@@ -6,7 +6,7 @@
         <thead class="thead-dark">
           <tr>
             <!-- Player Name -->
-            <th scope="col">{{  }}QuizlyBear</th>
+            <th scope="col">{{ name }}</th>
             <th scope="col">Stats</th>
           </tr>
         </thead>
@@ -15,12 +15,12 @@
           <tr>
             <th scope="row">Ranking</th>
             <!-- Player's Ranking -->
-            <td>{{  }}3</td>
+            <td>{{ rank }}</td>
           </tr>
           <tr scope="row">
             <th>Points</th>
             <!-- Player's Points -->
-            <td>{{  }}30</td>
+            <td>{{ points }}</td>
           </tr>
         </tbody>
 
@@ -42,6 +42,17 @@ import Modal from './Modal'
 export default {
   components: {
     Modal
+  },
+  computed: {
+    points() {
+      return this.$store.getters.getPoints;
+    },
+    rank() {
+      return this.$store.getters.getRank;
+    },
+    name() {
+      return this.$store.getters.getName;
+    }
   }
 }
 </script>

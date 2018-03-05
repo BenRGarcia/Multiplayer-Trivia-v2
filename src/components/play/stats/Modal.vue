@@ -75,9 +75,7 @@ export default {
       })
     },
     newPlayerName() {
-      console.log(`I was called!`);
       let name = this.playerName;
-      console.log(`${name} passed`);
       // Ignore empty inputs
       if (name) {
         // Close modal after valid input
