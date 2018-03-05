@@ -19,13 +19,17 @@
 
         <!-- Prevent page error if not yet loaded from firebase -->
         <div v-if="choices">
+          
+          <!-- Hide choices when time is up -->
+          <div v-if="isTimeUp">
 
-          <!-- Answer Choices -->
-          <Choices
-            v-for="(choice, index) in choices"
-            :key="index"
-            :choice="choice"
-          />
+            <!-- Answer Choices -->
+            <Choices
+              v-for="(choice, index) in choices"
+              :key="index"
+              :choice="choice"
+            />
+          </div>
 
         </div>
 
@@ -69,6 +73,11 @@ export default {
     },
     choices() {
       return this.$store.getters.getChoices;
+    },
+    isTimeUp() {
+      return this.$store.getters.getSecondsRemaining <= 0
+        ? false
+        : true
     }
   }
 }
