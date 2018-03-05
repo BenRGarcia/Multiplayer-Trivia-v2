@@ -163,11 +163,10 @@ export const store = new Vuex.Store({
   },
   actions: {
     postQuestion(context, payload) {
-      // receive payload
-      console.log(`postQuestion payload (aka question index): ${payload}`);
-      // retrieve question object at payload index
-
+      // retrieve question object at payload (payload = index)
+      let nextQuestionObj = context.state._questionBank[payload];
       // set trivia db ref to trivia object
+      return firebase.database().ref('/trivia').set(nextQuestionObj);
     },
     deleteAllPlayers(context) {
       return firebase.database().ref('/players').set({});
