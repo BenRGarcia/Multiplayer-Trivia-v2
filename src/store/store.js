@@ -149,8 +149,19 @@ export const store = new Vuex.Store({
       return firebase.database().ref('/players').set({});
     },
     resetAllScores(context) {
-      console.log(`resetAllScores was called`);
-      return ;
+      // Ignore input when no players exist
+      if (context.state._players) {
+        console.log(`resetAllScores was called`);
+        // Iterate over players
+        for (let playerKey in context.state._players) {
+          let points = 0;
+          let name = context.state._players[playerKey].name;
+          firebase.database().ref('/players/').child(playerKey).update({
+            name: name,
+            points: points
+          })
+        }
+      }
     },
     clearAllChats(context) {
       return firebase.database().ref('/chat').set({});
