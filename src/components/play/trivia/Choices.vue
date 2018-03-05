@@ -1,10 +1,16 @@
 <template>
-    <button 
+    <a 
       v-html="choice"
       :class="choiceClasses"
       @click.prevent="chooseAnswer"
+      tabindex="0"
+      role="button"
+      data-toggle="popover"
+      data-trigger="focus"
+      title="Chosen!"
+      data-template='<div class="popover" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3></div>'
     >
-    </button>
+    </a>
 </template>
 
 <script>
@@ -31,5 +37,7 @@ export default {
 </script>
 
 <style scoped>
-
+a {
+  color: white !important;
+}
 </style>

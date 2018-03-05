@@ -141,9 +141,6 @@ export const store = new Vuex.Store({
     // Player chose an answer to a trivia question
     chooseAnswer(context, payload) {
       let playerKey = localStorage.getItem("playerKey");
-      console.log(`payload: ${payload}, key: ${playerKey}`);
-      console.log(context.state._players[playerKey]);
-
       return firebase.database().ref('/players').update({
         [playerKey]: {
           name: context.state._players[playerKey].name,
