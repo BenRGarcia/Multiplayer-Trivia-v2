@@ -31,11 +31,7 @@ export const store = new Vuex.Store({
     },
     // Players - name, points, answer chosen
     _players: {
-      "-L6mfewNwudlrPWulZYz": {
-        chosenAnswer: " ",
-        name: " ",
-        points: null
-      }
+      
     },
     // Timer - initial set time, seconds remaining
     _timer: {
@@ -167,19 +163,13 @@ export const store = new Vuex.Store({
       // Get player key from session storage
       let playerKey = localStorage.getItem("playerKey");
       // Lookup player name
-      let name;
-
-      for (let player of context.state.players) {
-        if (playerKey === player[".key"]) {
-          name = player.name;
-        }
-      }
+      let name = context.state._players[playerKey].name;
       // Create new object to post to db
       let newMessage = {};
       // Add key/value of newMessageKey
       newMessage[newMessageKey] = {
         name: name,
-        message: message
+        message: payload
       };
       return firebase.database().ref('/chat').update(newMessage);
     },

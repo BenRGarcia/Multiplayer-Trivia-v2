@@ -4,20 +4,22 @@
       <table class="table table-sm">
 
         <thead class="thead-dark">
-          <tr>
-            <!-- Player Name -->
-            <th scope="col">{{ name }}</th>
-            <th scope="col">Stats</th>
+          <tr v-if="name">
+
+              <!-- Player Name -->
+              <th scope="col">{{ name }}</th>
+              <th scope="col">Stats</th>
+
           </tr>
         </thead>
 
         <tbody>
-          <tr>
+          <tr v-if="rank">
             <th scope="row">Ranking</th>
             <!-- Player's Ranking -->
             <td>{{ rank }}</td>
           </tr>
-          <tr scope="row">
+          <tr scope="row" v-if="">
             <th>Points</th>
             <!-- Player's Points -->
             <td>{{ points }}</td>
