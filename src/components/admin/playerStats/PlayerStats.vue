@@ -12,7 +12,14 @@
 
       </p>
       <p class="card-text mb-1">
-        Correct Answer: 
+        Question: 
+        
+        <!-- Seconds Remaining -->
+        <span v-html="currentQuestion"></span>
+
+      </p>
+      <p class="card-text mb-1">
+        Answer: 
         
         <!-- Seconds Remaining -->
         <span>{{ correctAnswer }}</span>
@@ -53,6 +60,9 @@ export default {
     },
     correctAnswer() {
       return this.$store.getters.getCorrectAnswer;
+    },
+    currentQuestion() {
+      return this.$store.getters.getQuestion;
     }
   }
 }
