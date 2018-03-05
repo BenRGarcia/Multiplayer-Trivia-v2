@@ -27,10 +27,9 @@ export default {
   },
   methods: {
     chooseAnswer() {
-      // Ignore choices without playerKey
-      return localStorage.getItem('playerKey')
+      return this.$store.getters.isKeyInDb
         ? this.$store.dispatch('chooseAnswer', this.choice)
-        : this.choice;
+        : alert("Must set player name before playing!");
     }
   }
 }

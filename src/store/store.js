@@ -51,16 +51,24 @@ export const store = new Vuex.Store({
   getters: {
     isKeyInDb: function (state) {
       let key = localStorage.getItem("playerKey");
-      return state._players[key]
-        ? true
-        : false;
+      // Handle if no players exist
+      if (state._players) {
+        // Test db for presence of key
+        return state._players.hasOwnProperty(key)
+          ? true
+          : false;
+      }
+      // When no players exist
+      return false;
     },
     getQuestion: function (state) {
       return state._trivia.question;
     },
     getChatHistory: function (state) {
       // Array of message objects
-      return Object.values(state._chat);
+      return state._chat
+        ? Object.values(state._chat)
+        : false;
     },
     getChoices: function (state) {
       // Combine incorrect/correct choices (throws err's)
@@ -71,36 +79,23 @@ export const store = new Vuex.Store({
       return choices;
     },
     getPoints: function (state) {
-      let key;
-      if (localStorage.getItem("playerKey")) {
-        key = localStorage.getItem("playerKey");
-      }
-      return state._players[key] 
-        ? state._players[key].points
-        : "-";
+      let key = localStorage.getItem("playerKey");
+      return state._players[key].points;
     },
     getRank(state) {
-      let key;
-      let sortedArray;
+      let key = localStorage.getItem("playerKey");
+      // Sort players in array
+      let sortedArray = Object.values(state._players).sort( 
+        (a, b) => b.points - a.points 
+      );
       let rank;
-      // Create sorted array if player exists
-      if (localStorage.getItem("playerKey")) {
-        // Get key from local storage if it exists
-        key = localStorage.getItem("playerKey");
-        // Created a sorted array of all players (sort by points)
-        sortedArray = Object.values(state._players).sort( 
-          (a, b) => b.points - a.points 
-        );
-        // Find player name in sorted array, index points to rank
-        for (let i = 0; i < sortedArray.length; i++) {
-          if (sortedArray[i].name === state._players[key].name) {
-            rank = i + 1;
-          }
+      // Calculate rank
+      for (let i = 0; i < sortedArray.length; i++) {
+        if (sortedArray[i].name === state._players[key].name) {
+          rank = i + 1;
         }
       }
-      return state._players[key]
-        ? rank
-        : "-";
+      return rank;
     },
     getName(state) {
       let key = localStorage.getItem("playerKey");
@@ -110,25 +105,36 @@ export const store = new Vuex.Store({
         : "Create Player Name";
     },
     getSecondsInitial: function (state) {
-      return state._timer.initial;
+      return state._timer
+        ? state._timer.initial
+        : false;
     },
     getSecondsRemaining: function (state) {
-      return state._timer.remaining;
+      return state._timer
+        ? state._timer.remaining
+        : false;
     },
     getPlayers: function (state) {
-      return state._players;
+      return state._players
+        ? state._players
+        : false;
     },
     getLeaders: function (state) {
       // How many leaders to show on leaderboard
       let leaderboardLimit = 10;
-      // Transform player object of objects into array
-      let objArray = Object.values(state._players);
-      // Sort players from highest to lowest points
-      let leaders = objArray.sort( (a,b) => b.points - a.points );
-      // Only return (at most) the top 10 players
-      return leaders.length > leaderboardLimit 
-        ? leaders.slice(0, leaderboardLimit)
-        : leaders;
+      // if state is present
+      if (state._players) {
+        // Transform player object of objects into array
+        let objArray = Object.values(state._players);
+        // Sort players from highest to lowest points
+        let leaders = objArray.sort( (a,b) => b.points - a.points );
+        // Only return (at most) the top 10 players
+        return leaders.length > leaderboardLimit 
+          ? leaders.slice(0, leaderboardLimit)
+          : leaders;
+      }
+      // If state not yet present
+      return false;
     }
   },
   mutations: {
@@ -140,15 +146,14 @@ export const store = new Vuex.Store({
   actions: {
     deleteAllPlayers(context) {
       console.log(`deleteAllPlayers was called`);
-      return ;
+      return firebase.database().ref('/players').set({});
     },
     resetAllScores(context) {
       console.log(`resetAllScores was called`);
       return ;
     },
     clearAllChats(context) {
-      console.log(`clearAllChats was called`);
-      return ;
+      return firebase.database().ref('/chat').set({});
     },
     setTimerInitial(context, payload) {
       return firebase.database().ref('/timer').update({
@@ -173,10 +178,14 @@ export const store = new Vuex.Store({
       let playerKey = localStorage.getItem("playerKey") || firebase.database().ref('/players').push().key;
       // Existing players keep current points
       let points;
-      if (context.state._players[playerKey]) {
-        points = context.state._players[playerKey].points;
+      // Test if any players exist
+      if (context.state._players) {
+        // Test if player key exists in db
+        if (context.state._players.hasOwnProperty(playerKey)) {
+          points = context.state._players[playerKey].points;
+        }
       }
-      // In case playerKey was not present, send to localStorage
+      // Just in case playerKey was not present, send to localStorage
       localStorage.setItem("playerKey", playerKey);
       // Create new object to post to db
       let newPlayer = {};

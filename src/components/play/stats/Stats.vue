@@ -50,13 +50,19 @@ export default {
   },
   computed: {
     points() {
-      return this.$store.getters.getPoints;
+      return this.$store.getters.isKeyInDb
+        ? this.$store.getters.getPoints
+        : "-";
     },
     rank() {
-      return this.$store.getters.getRank;
+      return this.$store.getters.isKeyInDb
+        ? this.$store.getters.getRank
+        : "-"
     },
     name() {
-      return this.$store.getters.getName;
+      return this.$store.getters.isKeyInDb
+        ? this.$store.getters.getName
+        : "Create Player Name"
     }
   }
 }
