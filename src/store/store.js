@@ -19,21 +19,37 @@ var config = {
 firebase.initializeApp(config);
 
 export const store = new Vuex.Store({
+  // Hard coded initial state so browser doesn't 'break'
+  // while waiting on firebase db
   state: {
     // Chat - message history
-    _chat: {},
+    _chat: {
+      "-L6mfeJDqiuUbqT6xS4Q": {
+        message: " ",
+        name: " "
+      }
+    },
     // Players - name, points, answer chosen
-    _players: {},
+    _players: {
+      "-L6mfewNwudlrPWulZYz": {
+        chosenAnswer: " ",
+        name: " ",
+        points: null
+      }
+    },
     // Timer - initial set time, seconds remaining
-    _timer: {},
+    _timer: {
+    initial: 30,
+    remaining: 0
+  },
     // Trivia - question + correct/incorrect answers
     _trivia: {
-      "category" : " ",
-      "correct_answer" : "-",
-      "difficulty" : " ",
-      "incorrect_answers" : [ "-", "-", "-" ],
-      "question" : " ",
-      "type" : " "
+      category: " ",
+      correct_answer: "-",
+      difficulty: " ",
+      incorrect_answers: [ "-", "-", "-" ],
+      question: " ",
+      type: " "
     }
   },
   getters: {
