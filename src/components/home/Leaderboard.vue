@@ -15,7 +15,13 @@
             <tbody>
 
               <!-- Each Leader in Leaderboard -->
-              <Leader/>{{ player }}
+              <Leader
+                v-for="(leader, index) in leaders"
+                :key="index"
+                :name="leader.name"
+                :points="leader.points"
+                :rank="index + 1"
+              />
 
             </tbody>
           </table>  
@@ -44,12 +50,8 @@ export default {
     }
   },
   computed: {
-    player() {
-      /*var player;
-      this.$firebase.database().ref('/players').on("value", snapshot => {
-        player = snapshot.val()["-L6mfewNwudlrPWulZYz"].name;
-      });
-      return player;*/
+    leaders() {
+      return this.$store.getters.getLeaders;
     }
   }
 }

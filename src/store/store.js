@@ -115,18 +115,14 @@ export const store = new Vuex.Store({
     getLeaders: function (state) {
       // How many leaders to show on leaderboard
       let leaderboardLimit = 10;
-
-      /**
-       *  If needed to transform object of objects into array of objects
-       *  let objArray = Object.values(state._players); 
-      */
-
+      // Transform player object of objects into array
+      let objArray = Object.values(state._players);
       // Sort players from highest to lowest points
-      /*let objArray = state._players.sort( (a,b) => b.points - a.points );
+      let leaders = objArray.sort( (a,b) => b.points - a.points );
       // Only return (at most) the top 10 players
-      return objArray.length > leaderboardLimit 
-        ? objArray.slice(0, leaderboardLimit)
-        : objArray;*/
+      return leaders.length > leaderboardLimit 
+        ? leaders.slice(0, leaderboardLimit)
+        : leaders;
     }
   },
   mutations: {
@@ -145,7 +141,6 @@ export const store = new Vuex.Store({
       if (context.state._players[playerKey]) {
         points = context.state._players[playerKey].points;
       }
-
       // In case playerKey was not present, send to localStorage
       localStorage.setItem("playerKey", playerKey);
       // Create new object to post to db
