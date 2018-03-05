@@ -31,11 +31,9 @@ export default {
   },
   // Lifecycle hooks, scroll chat to bottom
   mounted: function() {
-    console.log("mounted");
     $('#chat').scrollTop( 1000 );
   },
   updated: function () {
-    console.log("updated");
     $('#chat').scrollTop( 1000 );
   },
   computed: {

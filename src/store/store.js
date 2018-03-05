@@ -85,7 +85,6 @@ export const store = new Vuex.Store({
      ***********/
     getFirebaseChat: function(context) {
       firebase.database().ref('/chat').on("value", snapshot => {
-        console.log(snapshot.val());
         context.commit('setChat', snapshot.val());
       });
     },
