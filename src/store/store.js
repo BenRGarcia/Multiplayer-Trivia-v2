@@ -38,12 +38,15 @@ export const store = new Vuex.Store({
       return Object.values(state._chat);
     },
     getChoices: function (state) {
-      /*// Combine incorrect/correct choices
+      // Bad code -- 'correct' answer not randomly spliced (but doesn't break the program)
+      // return state._trivia.incorrect_answers;
+
+      // Combine incorrect/correct choices
       let choices = state._trivia.incorrect_answers;
       // Splice correct answer to random index of choices array
       let randomIndex = Math.floor(Math.random() * (choices.length + 1));
       choices.splice(randomIndex, 0, state._trivia.correct_answer);
-      return choices;*/
+      return choices;
     },
     getSecondsInitial: function (state) {
       return state._timer.initial;
@@ -77,6 +80,9 @@ export const store = new Vuex.Store({
     },
     setChat (state, chatObj) {
       return state._chat = chatObj;
+    },
+    setTrivia (state, triviaObj) {
+      return state._trivia = triviaObj;
     }
   },
   actions: {
@@ -96,14 +102,13 @@ export const store = new Vuex.Store({
     },
     getFirebaseTimer: function(context) {
       firebase.database().ref('/timer').on("value", snapshot => {
-        context.commit('setTimer', snapshot.val())
+        context.commit('setTimer', snapshot.val());
       });
     },
     getFirebaseTrivia: function(context) {
-      /*firebase.database().ref('/trivia').on("value", snapshot => {
-        console.log(snapshot.val());
-        context.commit('?', snapshot.val())
-      });*/
+      firebase.database().ref('/trivia').on("value", snapshot => {
+        context.commit('setTrivia', snapshot.val());
+      });
     }
   }
 });

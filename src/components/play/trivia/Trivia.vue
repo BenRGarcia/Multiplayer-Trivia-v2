@@ -10,13 +10,24 @@
       <div :class="questionClasses">
 
         <!-- Trivia Question -->
-        <Question/>
+        <Question
+          :question="question"
+        />
 
       </div>
       <div :class="choicesClasses">
 
-        <!-- Answer Choices -->
-        <Choices/>
+        <!-- Prevent page error if not yet loaded from firebase -->
+        <div v-if="choices">
+
+          <!-- Answer Choices -->
+          <Choices
+            v-for="(choice, index) in choices"
+            :key="index"
+            :choice="choice"
+          />
+
+        </div>
 
       </div>
     </div>
@@ -51,6 +62,17 @@ export default {
     Timer,
     Question,
     Choices
+  },
+  computed: {
+    question() {
+      return this.$store.getters.getQuestion;
+    },
+    choices() {
+      return this.$store.getters.getChoices;
+    }
+  },
+  beforeCreate: function() {
+    return this.$store.dispatch('getFirebaseTrivia');
   }
 }
 /*

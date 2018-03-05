@@ -1,10 +1,10 @@
 <template>
-  <h2 class="mb-4">What animal has the largest ears?</h2>
+  <h2 class="mb-4" v-html="question"></h2>
 </template>
 
 <script>
 export default {
-
+  props: ["question"]
 }
 </script>
 

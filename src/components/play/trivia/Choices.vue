@@ -1,22 +1,14 @@
 <template>
-  <div>
-    <button :class="choiceClasses">
-      {{  }}Cat
+    <button 
+      v-html="choice"
+      :class="choiceClasses"
+    >
     </button>
-    <button :class="choiceClasses">
-      {{  }}Bird
-    </button>
-    <button :class="choiceClasses">
-      {{  }}Elephant
-    </button>
-    <button :class="choiceClasses">
-      {{  }}Dog
-    </button>
-  </div>  
 </template>
 
 <script>
 export default {
+  props: ["choice"],
   data() {
     return {
       // CSS classes for each answer choice
