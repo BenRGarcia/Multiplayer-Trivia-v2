@@ -19,8 +19,8 @@ var config = {
 firebase.initializeApp(config);
 
 export const store = new Vuex.Store({
-  // Hard coded initial state so browser doesn't 'break'
-  // while waiting on firebase db
+  // Hard coded initial state so browser doesn't 'break'...
+  // ...while waiting on firebase db
   state: {
     // Chat - message history
     _chat: {
@@ -49,6 +49,12 @@ export const store = new Vuex.Store({
     }
   },
   getters: {
+    isKeyInDb: function (state) {
+      let key = localStorage.getItem("playerKey");
+      return state._players[key]
+        ? true
+        : false;
+    },
     getQuestion: function (state) {
       return state._trivia.question;
     },
@@ -129,9 +135,23 @@ export const store = new Vuex.Store({
     setTimer:  (state, timerObj)   => state._timer   = timerObj,
     setChat:   (state, chatObj)    => state._chat    = chatObj,
     setTrivia: (state, triviaObj)  => state._trivia  = triviaObj,
-    setPlayers: (state, playerObj) => state._players = playerObj
+    setPlayers: (state, playerObj) => state._players = playerObj,
   },
   actions: {
+    // Player chose an answer to a trivia question
+    chooseAnswer(context, payload) {
+      let playerKey = localStorage.getItem("playerKey");
+      console.log(`payload: ${payload}, key: ${playerKey}`);
+      console.log(context.state._players[playerKey]);
+
+      return firebase.database().ref('/players').update({
+        [playerKey]: {
+          name: context.state._players[playerKey].name,
+          points: context.state._players[playerKey].points,
+          choice: payload
+        }
+      });
+    },
     // Add playerName to database, or change name if key exists
     setPlayerName(context, payload) {
       // playerKey already exists, or get a new one
@@ -174,25 +194,25 @@ export const store = new Vuex.Store({
     getFirebaseChat: function(context) {
       console.log(`getFirebaseChat fired`);
       firebase.database().ref('/chat').on("value", snapshot => {
-        context.commit('setChat', snapshot.val());
+        return context.commit('setChat', snapshot.val());
       });
     },
     getFirebasePlayers: function(context) {
       console.log(`getFirebasePlayers fired`);
       firebase.database().ref('/players').on("value", snapshot => {
-        context.commit('setPlayers', snapshot.val())
+        return context.commit('setPlayers', snapshot.val())
       });
     },
     getFirebaseTimer: function(context) {
       console.log(`getFirebaseTimer fired`);
       firebase.database().ref('/timer').on("value", snapshot => {
-        context.commit('setTimer', snapshot.val());
+        return context.commit('setTimer', snapshot.val());
       });
     },
     getFirebaseTrivia: function(context) {
       console.log(`getFirebaseTrivia fired`);
       firebase.database().ref('/trivia').on("value", snapshot => {
-        context.commit('setTrivia', snapshot.val());
+        return context.commit('setTrivia', snapshot.val());
       });
     }
   }

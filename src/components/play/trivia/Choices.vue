@@ -2,6 +2,7 @@
     <button 
       v-html="choice"
       :class="choiceClasses"
+      @click.prevent="chooseAnswer"
     >
     </button>
 </template>
@@ -16,6 +17,14 @@ export default {
         "btn", "btn-secondary", 
         "btn-lg", "btn-block"
       ]
+    }
+  },
+  methods: {
+    chooseAnswer() {
+      // Ignore choices without playerKey
+      return localStorage.getItem('playerKey')
+        ? this.$store.dispatch('chooseAnswer', this.choice)
+        : this.choice;
     }
   }
 }
