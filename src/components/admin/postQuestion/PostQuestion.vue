@@ -79,6 +79,9 @@ export default {
         return this.index = questionCount;
       }
       return this.index--;
+    },
+    test() {
+      console.log(`I was called, too!`)
     }
   }
 }

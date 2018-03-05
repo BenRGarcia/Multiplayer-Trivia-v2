@@ -54,12 +54,9 @@ export const store = new Vuex.Store({
   getters: {
     getQuestionCount(state) {
       if (state._questionBank) {
-        console.log(`qbank is ${state._questionBank.length} long`);
         return state._questionBank.length
       }
-      console.log(`No qbank yet`);
       return false;
-      
     },
     isKeyInDb: function (state) {
       let key = localStorage.getItem("playerKey");
@@ -162,7 +159,50 @@ export const store = new Vuex.Store({
     setQuestionBank: (state, qArray) => state._questionBank = qArray
   },
   actions: {
+    startTimer(context) {
+      console.log(`startTimer was called`);
+      let initial = context.state._timer.initial;
+      let timerRef = firebase.database().ref('/timer');
+
+      const timer = {
+        intervalId: null,
+        secondsRemaining: 0,
+        setTimer(seconds) {
+          timer.secondsRemaining = seconds;
+          return timerRef.update({
+            initial: initial,
+            remaining: initial
+          });
+        },
+        startTimer() {
+          return timer.intervalId = setInterval(timer.countDown, 1000);
+        },
+        countDown() {
+          console.log(`countDown was called`);
+          timer.secondsRemaining--;
+
+          timerRef.update({
+            initial: context.state._timer.initial,
+            remaining: timer.secondsRemaining
+          });
+            
+          if (timer.secondsRemaining <= 0) {
+            return timer.timeRanOut();
+          }
+        },
+        timeRanOut() {
+          console.log(`time ran out`);
+          return clearInterval(timer.intervalId);
+        }
+      };
+      // set timer
+      timer.setTimer(initial);
+      // start timer
+      // setTimeout(timer.startTimer, 1000);
+      timer.startTimer();
+    },
     postQuestion(context, payload) {
+      context.dispatch('startTimer');
       // retrieve question object at payload (payload = index)
       let nextQuestionObj = context.state._questionBank[payload];
       // set trivia db ref to trivia object
@@ -189,8 +229,9 @@ export const store = new Vuex.Store({
       return firebase.database().ref('/chat').set({});
     },
     setTimerInitial(context, payload) {
+      let number = parseInt(payload);
       return firebase.database().ref('/timer').update({
-        initial: payload,
+        initial: number,
         remaining: context.state._timer.remaining
       });
     },
