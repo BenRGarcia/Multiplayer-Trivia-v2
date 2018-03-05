@@ -26,7 +26,7 @@
 
             <!-- Begin modal form -->
             <form 
-              v-on:submit.prevent=""
+              v-on:submit.prevent="newPlayerName"
             >
 
               <div class="form-group">
@@ -34,6 +34,7 @@
                 
                 <!-- Input box for player name -->
                 <input 
+                  v-model="playerName"
                   type="text" 
                   class="form-control" 
                   id="player-name" 
@@ -47,7 +48,7 @@
 
             <!-- Submit button -->
             <input 
-              @click.prevent="" 
+              @click.prevent="newPlayerName" 
               type="submit" 
               class="btn btn-primary"
             >
@@ -61,12 +62,33 @@
 
 <script>
 export default {
+  data() {
+    return {
+      playerName: ''
+    }
+  },
   methods: {
     // Focus modal to input, save the user a 'click'
     autofocusModal() {
       $('#playerNameModal').on('shown.bs.modal', () => {
         $('#player-name').trigger('focus');
       })
+    },
+    newPlayerName() {
+      console.log(`I was called!`);
+      let name = this.playerName;
+      console.log(`${name} passed`);
+      // Ignore empty inputs
+      if (name) {
+        // Close modal after valid input
+        $('#playerNameModal').modal('hide');
+        // Reset property to empty string
+        this.playerName = "";
+        // emit new name to parent component
+        return this.$store.dispatch("setPlayerName", name);
+      }
+      // If invalid input
+      return name;
     }
   }
 }

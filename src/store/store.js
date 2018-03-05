@@ -27,7 +27,14 @@ export const store = new Vuex.Store({
     // Timer - initial set time, seconds remaining
     _timer: {},
     // Trivia - question + correct/incorrect answers
-    _trivia: {}
+    _trivia: {
+      "category" : " ",
+      "correct_answer" : "-",
+      "difficulty" : " ",
+      "incorrect_answers" : [ "-", "-", "-" ],
+      "question" : " ",
+      "type" : " "
+    }
   },
   getters: {
     getQuestion: function (state) {
@@ -38,10 +45,7 @@ export const store = new Vuex.Store({
       return Object.values(state._chat);
     },
     getChoices: function (state) {
-      // Bad code -- 'correct' answer not randomly spliced (but doesn't break the program)
-      // return state._trivia.incorrect_answers;
-
-      // Combine incorrect/correct choices
+      // Combine incorrect/correct choices (throws err's)
       let choices = state._trivia.incorrect_answers;
       // Splice correct answer to random index of choices array
       let randomIndex = Math.floor(Math.random() * (choices.length + 1));
@@ -75,37 +79,84 @@ export const store = new Vuex.Store({
     }
   },
   mutations: {
-    setTimer (state, timerObj) {
-      return state._timer = timerObj;
-    },
-    setChat (state, chatObj) {
-      return state._chat = chatObj;
-    },
-    setTrivia (state, triviaObj) {
-      return state._trivia = triviaObj;
-    }
+    setTimer:  (state, timerObj)   => state._timer   = timerObj,
+    setChat:   (state, chatObj)    => state._chat    = chatObj,
+    setTrivia: (state, triviaObj)  => state._trivia  = triviaObj,
+    setPlayers: (state, playerObj) => state._players = playerObj
   },
   actions: {
-    /***********
-     * FIREBASE
-     ***********/
+    // Add playerName to database, or change name if key exists
+    setPlayerName(context, payload) {
+      console.log(`so was I!`);
+      console.log(payload);
+      // playerKey already exists, or get a new one
+      let playerKey = localStorage.getItem("playerKey") || firebase.database().ref('/players').push().key;
+      let points;
+
+      console.log(context.state._players);
+
+      // Existing players keep current points
+      for (let player of context.state._players) {
+        if (playerKey === player[".key"]) {
+          points = player.points;
+        }
+      }
+      // In case playerKey was not present, send to localStorage
+      /*localStorage.setItem("playerKey", playerKey);
+      // Create new object to post to db
+      let newPlayer = {};
+      // Add key/value of newPlayerKey
+      newPlayer[playerKey] = {
+        name: payload,
+        points: points || 0
+      };
+      return firebase.database().ref('/players').update(newPlayer);*/
+    },
+    sendMessage(context, payload) {
+      // Get firebase key for new message
+      let newMessageKey = firebase.database().ref('/chat').push().key;
+      // Get player key from session storage
+      let playerKey = localStorage.getItem("playerKey");
+      // Lookup player name
+      let name;
+
+      for (let player of context.state.players) {
+        if (playerKey === player[".key"]) {
+          name = player.name;
+        }
+      }
+      // Create new object to post to db
+      let newMessage = {};
+      // Add key/value of newMessageKey
+      newMessage[newMessageKey] = {
+        name: name,
+        message: message
+      };
+      return firebase.database().ref('/chat').update(newMessage);
+    },
+    /************
+     * FIREBASE *
+     ************/
     getFirebaseChat: function(context) {
+      console.log(`getFirebaseChat fired`);
       firebase.database().ref('/chat').on("value", snapshot => {
         context.commit('setChat', snapshot.val());
       });
     },
     getFirebasePlayers: function(context) {
-      /*firebase.database().ref('/players').on("value", snapshot => {
-        console.log(snapshot.val());
-        context.commit('?', snapshot.val())
-      });*/
+      console.log(`getFirebasePlayers fired`);
+      firebase.database().ref('/players').on("value", snapshot => {
+        context.commit('setPlayers', snapshot.val())
+      });
     },
     getFirebaseTimer: function(context) {
+      console.log(`getFirebaseTimer fired`);
       firebase.database().ref('/timer').on("value", snapshot => {
         context.commit('setTimer', snapshot.val());
       });
     },
     getFirebaseTrivia: function(context) {
+      console.log(`getFirebaseTrivia fired`);
       firebase.database().ref('/trivia').on("value", snapshot => {
         context.commit('setTrivia', snapshot.val());
       });

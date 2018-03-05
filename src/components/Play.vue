@@ -35,6 +35,9 @@ export default {
     Trivia,
     Stats,
     Chat
+  },
+  created() {
+    return this.$store.dispatch("getFirebasePlayers");
   }
 }
 </script>
