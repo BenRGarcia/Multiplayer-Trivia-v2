@@ -3,6 +3,7 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import { store } from './store/store'
+
 // Bootstrap
 import 'bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css'

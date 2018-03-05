@@ -15,7 +15,7 @@
             <tbody>
 
               <!-- Each Leader in Leaderboard -->
-              <Leader/>
+              <Leader/>{{ player }}
 
             </tbody>
           </table>  
@@ -41,6 +41,15 @@ export default {
         "col-md-8", "offset-md-2",  // md screens
         "col-lg-6", "offset-lg-3"   // lg screens
       ]
+    }
+  },
+  computed: {
+    player() {
+      /*var player;
+      this.$firebase.database().ref('/players').on("value", snapshot => {
+        player = snapshot.val()["-L6mfewNwudlrPWulZYz"].name;
+      });
+      return player;*/
     }
   }
 }

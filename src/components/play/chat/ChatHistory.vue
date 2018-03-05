@@ -1,29 +1,12 @@
 <template>
-  <div>
-    <p>
-      <span class="name">{{  }}TriviaKing47</span>: {{  }} I rule, you drool
-    </p>
-    <p>
-      <span class="name">{{  }}TriviaQueen86</span>: {{  }} Guess who's sleeping on the couch
-    </p>
-    <p>
-      <span class="name">{{  }}TriviaKing47</span>: {{  }} Dangit...
-    </p>
-    <p>
-      <span class="name">{{  }}TriviaKing47</span>: {{  }} But... Really?... :-(
-    </p>
-    <p>
-      <span class="name">{{  }}TriviaQueen86</span>: {{  }} Yup
-    </p>
-    <p>
-      <span class="name">{{  }}TriviaQueen86</span>: {{  }} You did this to yourself
-    </p>
-  </div>
+    <p><span class="name">{{ name }}</span>: {{ message }}</p>
 </template>
 
 <script>
 export default {
-  
+  props: [
+    "name", "message"
+  ]
 }
 </script>
 

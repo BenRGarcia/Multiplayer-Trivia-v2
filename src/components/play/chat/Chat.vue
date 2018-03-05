@@ -3,7 +3,12 @@
     <div id="chat" class="card-body border border-secondary rounded">
 
       <!-- Chat History loads from db to here -->
-      <ChatHistory/>
+      <ChatHistory 
+        v-for="(chat, index) in chats" 
+        :key="index"
+        :name="chat.name"
+        :message="chat.message"
+      />
 
     </div>
     <div class="card-footer">
@@ -26,10 +31,20 @@ export default {
   },
   // Lifecycle hooks, scroll chat to bottom
   mounted: function() {
+    console.log("mounted");
     $('#chat').scrollTop( 1000 );
   },
   updated: function () {
+    console.log("updated");
     $('#chat').scrollTop( 1000 );
+  },
+  computed: {
+    chats() {
+      return this.$store.getters.getChatHistory;
+    }
+  },
+  created: function() {
+    return this.$store.dispatch('getFirebaseChat');
   }
 }
 </script>

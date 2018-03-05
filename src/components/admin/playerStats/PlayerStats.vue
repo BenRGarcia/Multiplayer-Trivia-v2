@@ -8,7 +8,7 @@
         Seconds Remaining: 
         
         <!-- Seconds Remaining -->
-        <span> 30 {{ }} </span>
+        <span>{{ seconds }}</span>
 
       </p>
       <p class="mb-1">
@@ -39,6 +39,14 @@ import Leaderboard from '../../home/Leaderboard'
 export default {
   components: {
     Leaderboard
+  },
+  computed: {
+    seconds() {
+      return this.$store.getters.getSecondsRemaining;
+    }
+  },
+  created: function() {
+    return this.$store.dispatch('getFirebaseTimer');
   }
 }
 </script>
