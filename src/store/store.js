@@ -159,8 +159,26 @@ export const store = new Vuex.Store({
     setQuestionBank: (state, qArray) => state._questionBank = qArray
   },
   actions: {
+    tallyScore(context) {
+      // declare variable to store correct answer
+      let answer = context.state._trivia.correct_answer;
+      // iterate over players
+      for (let playerKey in context.state._players) {
+        let name = context.state._players[playerKey].name;
+        let points = context.state._players[playerKey].points;
+        let choice = context.state._players[playerKey].choice;
+        // compare chosen answer to correct answer
+        if (choice === answer) {
+          points++;
+        }
+        // push updated player objects to db
+        firebase.database().ref('/players/').child(playerKey).update({
+          name: name,
+          points: points
+        });
+      }
+    },
     startTimer(context) {
-      console.log(`startTimer was called`);
       let initial = context.state._timer.initial;
       let timerRef = firebase.database().ref('/timer');
 
@@ -178,7 +196,6 @@ export const store = new Vuex.Store({
           return timer.intervalId = setInterval(timer.countDown, 1000);
         },
         countDown() {
-          console.log(`countDown was called`);
           timer.secondsRemaining--;
 
           timerRef.update({
@@ -191,7 +208,7 @@ export const store = new Vuex.Store({
           }
         },
         timeRanOut() {
-          console.log(`time ran out`);
+          context.dispatch('tallyScore');
           return clearInterval(timer.intervalId);
         }
       };
