@@ -3,7 +3,7 @@
     <div class="card-body">
       <h5 class="card-title mb-1">Set Timer Amount</h5>
 
-      <h6>Currently: <span id="seconds"> {{ seconds }} </span> seconds)</h6>
+      <h6>(Currently: <span id="seconds"> {{ seconds }} </span> seconds)</h6>
 
       <p class="card-text">Type in how many seconds you want players to have for each question.</p>
       <form @submit.prevent="setTimer">

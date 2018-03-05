@@ -38,14 +38,7 @@ export default {
   },
   // If playerKey not present in local storage, trigger modal
   mounted: function() {
-    if (localStorage.getItem("playerKey") === null ||
-        !this.$store.getters.isKeyInDb) {
-      return $('#playerNameModal').modal('show');
-    }
-  },
-  updated: function() {
-    if (localStorage.getItem("playerKey") === null ||
-        !this.$store.getters.isKeyInDb) {
+    if (localStorage.getItem("playerKey") === null) {
       return $('#playerNameModal').modal('show');
     }
   }
