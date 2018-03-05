@@ -38,17 +38,15 @@ export default {
   },
   // If playerKey not present in local storage, trigger modal
   mounted: function() {
-    if (localStorage.getItem("playerKey") === null) {
+    if (localStorage.getItem("playerKey") === null ||
+        !this.$store.getters.isKeyInDb) {
       return $('#playerNameModal').modal('show');
     }
   },
   updated: function() {
-    // If playerKey exists but not found in firebase db, trigger modal
-    // (for when admin deleted all players from admin panel)
-    if (localStorage.getItem("playerKey") !== null) {
-      return this.$store.getters.isKeyInDb
-        ? true
-        : localStorage.removeItem("playerKey");
+    if (localStorage.getItem("playerKey") === null ||
+        !this.$store.getters.isKeyInDb) {
+      return $('#playerNameModal').modal('show');
     }
   }
 }
