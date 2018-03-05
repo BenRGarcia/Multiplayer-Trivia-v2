@@ -43,15 +43,21 @@ export const store = new Vuex.Store({
   },
     // Trivia - question + correct/incorrect answers
     _trivia: {
-      category: " ",
-      correct_answer: "-",
-      difficulty: " ",
-      incorrect_answers: [ "-", "-", "-" ],
-      question: " ",
-      type: " "
+      category: "",
+      correct_answer: "",
+      difficulty: "",
+      incorrect_answers: [],
+      question: "",
+      type: ""
     }
   },
   getters: {
+    getCorrectAnswer(state) {
+      if (state._trivia) {
+        return state._trivia.correct_answer;
+      }
+      return false;
+    },
     getQuestionCount(state) {
       if (state._questionBank) {
         return state._questionBank.length
@@ -71,7 +77,10 @@ export const store = new Vuex.Store({
       return false;
     },
     getQuestion: function (state) {
-      return state._trivia.question;
+      if (state._trivia) {
+        return state._trivia.question;
+      }
+      return false;
     },
     getChatHistory: function (state) {
       // Array of message objects
@@ -80,12 +89,15 @@ export const store = new Vuex.Store({
         : false;
     },
     getChoices: function (state) {
-      // Combine incorrect/correct choices (throws err's)
-      let choices = state._trivia.incorrect_answers;
-      // Splice correct answer to random index of choices array
-      let randomIndex = Math.floor(Math.random() * (choices.length + 1));
-      choices.splice(randomIndex, 0, state._trivia.correct_answer);
-      return choices;
+      if (state._trivia) {
+        // Combine incorrect/correct choices (throws err's)
+        let choices = state._trivia.incorrect_answers;
+        // Splice correct answer to random index of choices array
+        let randomIndex = Math.floor(Math.random() * (choices.length + 1));
+        choices.splice(randomIndex, 0, state._trivia.correct_answer);
+        return choices;
+      }
+      return false;
     },
     getPoints: function (state) {
       let key = localStorage.getItem("playerKey");

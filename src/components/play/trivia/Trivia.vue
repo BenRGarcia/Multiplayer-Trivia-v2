@@ -6,14 +6,16 @@
         <Timer/>
 
     </div>
-    <div class="card-body">
+    <div id="question" class="card-body">
       <div :class="questionClasses">
-
-        <!-- Trivia Question -->
-        <Question
-          :question="question"
-        />
-
+          
+        <div v-if="question">
+          <!-- Trivia Question -->
+          <Question
+            :question="question"
+          />
+        </div>
+          
       </div>
       <div :class="choicesClasses">
 
@@ -69,10 +71,14 @@ export default {
   },
   computed: {
     question() {
-      return this.$store.getters.getQuestion;
+      return this.$store.getters.getQuestion
+        ? this.$store.getters.getQuestion
+        : false;
     },
     choices() {
-      return this.$store.getters.getChoices;
+      return this.$store.getters.getChoices
+        ? this.$store.getters.getChoices
+        : false;
     },
     isTimeUp() {
       return this.$store.getters.getSecondsRemaining <= 0
@@ -84,5 +90,10 @@ export default {
 </script>
 
 <style scoped>
-
+#question {
+  min-height: 318px;
+}
+.card-header {
+  min-height: 53px;
+}
 </style>

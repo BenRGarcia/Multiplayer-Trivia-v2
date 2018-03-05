@@ -1,14 +1,9 @@
-<template>
+<template> 
     <a 
       v-html="choice"
       :class="choiceClasses"
-      @click.prevent="chooseAnswer"
-      tabindex="0"
+      @click="chooseAnswer"
       role="button"
-      data-toggle="popover"
-      data-trigger="focus"
-      title="Chosen!"
-      data-template='<div class="popover" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3></div>'
     >
     </a>
 </template>

@@ -11,6 +11,13 @@
         <span>{{ seconds }}</span>
 
       </p>
+      <p class="card-text mb-1">
+        Correct Answer: 
+        
+        <!-- Seconds Remaining -->
+        <span>{{ correctAnswer }}</span>
+
+      </p>
       <p class="mb-1">
         <button 
           class="btn btn-outline-primary" 
@@ -43,10 +50,10 @@ export default {
   computed: {
     seconds() {
       return this.$store.getters.getSecondsRemaining;
+    },
+    correctAnswer() {
+      return this.$store.getters.getCorrectAnswer;
     }
-  },
-  created: function() {
-    return this.$store.dispatch('getFirebaseTimer');
   }
 }
 </script>
