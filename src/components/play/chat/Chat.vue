@@ -40,9 +40,6 @@ export default {
     chats() {
       return this.$store.getters.getChatHistory;
     }
-  },
-  created: function() {
-    return this.$store.dispatch('getFirebaseChat');
   }
 }
 </script>

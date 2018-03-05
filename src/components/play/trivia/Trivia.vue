@@ -70,15 +70,8 @@ export default {
     choices() {
       return this.$store.getters.getChoices;
     }
-  },
-  beforeCreate: function() {
-    return this.$store.dispatch('getFirebaseTrivia');
   }
 }
-/*
-API Source: https://opentdb.com/api_config.php
-ex. url: https://opentdb.com/api.php?amount=10&type=multiple
-*/
 </script>
 
 <style scoped>

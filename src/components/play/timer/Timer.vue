@@ -10,9 +10,6 @@ export default {
     seconds() {
       return this.$store.getters.getSecondsRemaining;
     }
-  },
-  created: function() {
-    return this.$store.dispatch('getFirebaseTimer');
   }
 }
 </script>
