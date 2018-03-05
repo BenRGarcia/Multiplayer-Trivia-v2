@@ -138,8 +138,19 @@ export const store = new Vuex.Store({
     setPlayers: (state, playerObj) => state._players = playerObj,
   },
   actions: {
+    deleteAllPlayers(context) {
+      console.log(`deleteAllPlayers was called`);
+      return ;
+    },
+    resetAllScores(context) {
+      console.log(`resetAllScores was called`);
+      return ;
+    },
+    clearAllChats(context) {
+      console.log(`clearAllChats was called`);
+      return ;
+    },
     setTimerInitial(context, payload) {
-      console.log(`payload received: ${payload}`);
       return firebase.database().ref('/timer').update({
         initial: payload,
         remaining: context.state._timer.remaining

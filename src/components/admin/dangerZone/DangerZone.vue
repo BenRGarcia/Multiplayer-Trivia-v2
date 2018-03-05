@@ -28,7 +28,7 @@
 
                 <!-- Delete All Players -->
                 <button 
-                  @click.prevent="" 
+                  @click.prevent="deletePlayers" 
                   :class="btnClasses"
                 >
                   Delete All Players
@@ -48,7 +48,7 @@
 
                 <!-- Reset All Scores to 0 -->
                 <button 
-                  @click.prevent="" 
+                  @click.prevent="resetScores" 
                   :class="btnClasses"
                 >
                   Reset All Scores
@@ -68,7 +68,7 @@
 
                 <!-- Clear Chat History -->
                 <button 
-                  @click="" 
+                  @click="clearChats" 
                   :class="btnClasses"
                 >
                   Clear Chat History
@@ -98,8 +98,19 @@ export default {
         btnClasses: [
         "btn", "btn-danger"
         ]
-      }
     }
+  },
+  methods: {
+    deletePlayers() {
+      return this.$store.dispatch('deleteAllPlayers');
+    },
+    resetScores() {
+      return this.$store.dispatch('resetAllScores');
+    },
+    clearChats() {
+      return this.$store.dispatch('clearAllChats');
+    }
+  }
 }
 </script>
 
