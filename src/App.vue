@@ -31,6 +31,7 @@ export default {
     this.$store.dispatch('getFirebasePlayers');
     this.$store.dispatch('getFirebaseTimer');
     this.$store.dispatch('getFirebaseTrivia');
+    this.$store.dispatch('getFirebaseQuestionBank');
   }
 }
 </script>

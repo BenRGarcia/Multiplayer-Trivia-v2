@@ -29,6 +29,9 @@ export const store = new Vuex.Store({
         name: " "
       }
     },
+    _questionBank: [
+
+    ],
     // Players - name, points, answer chosen
     _players: {
       
@@ -49,6 +52,15 @@ export const store = new Vuex.Store({
     }
   },
   getters: {
+    getQuestionCount(state) {
+      if (state._questionBank) {
+        console.log(`qbank is ${state._questionBank.length} long`);
+        return state._questionBank.length
+      }
+      console.log(`No qbank yet`);
+      return false;
+      
+    },
     isKeyInDb: function (state) {
       let key = localStorage.getItem("playerKey");
       // Handle if no players exist
@@ -80,7 +92,12 @@ export const store = new Vuex.Store({
     },
     getPoints: function (state) {
       let key = localStorage.getItem("playerKey");
-      return state._players[key].points;
+      if (state._players) {
+        return state._players.hasOwnProperty(key)
+          ? state._players[key].points
+          : false;
+      }
+      return false;
     },
     getRank(state) {
       let key = localStorage.getItem("playerKey");
@@ -142,8 +159,16 @@ export const store = new Vuex.Store({
     setChat:   (state, chatObj)    => state._chat    = chatObj,
     setTrivia: (state, triviaObj)  => state._trivia  = triviaObj,
     setPlayers: (state, playerObj) => state._players = playerObj,
+    setQuestionBank: (state, qArray) => state._questionBank = qArray
   },
   actions: {
+    postQuestion(context, payload) {
+      // receive payload
+      console.log(`postQuestion payload (aka question index): ${payload}`);
+      // retrieve question object at payload index
+
+      // set trivia db ref to trivia object
+    },
     deleteAllPlayers(context) {
       return firebase.database().ref('/players').set({});
     },
@@ -224,6 +249,12 @@ export const store = new Vuex.Store({
     /************
      * FIREBASE *
      ************/
+    getFirebaseQuestionBank: function (context) {
+      console.log(`getFirebaseQuestionBank fired`);
+      firebase.database().ref('/questionBank').on("value", snapshot => {
+        return context.commit('setQuestionBank', snapshot.val());
+      });
+    },
     getFirebaseChat: function(context) {
       console.log(`getFirebaseChat fired`);
       firebase.database().ref('/chat').on("value", snapshot => {

@@ -6,7 +6,7 @@
       <p class="card-text mb-1">Click the button below to post the next trivia question.</p> 
       <p class="card-text">(This will also start the timer automatically)</p>
 
-      <form @submit.prevent="">
+      <form @submit.prevent="postQuestion">
         <div class="form-group row">
           <label class="col-12 mb-0 pt-1 pr-1">Question Number:</label>
           <div class="input-group mt-1 col-8 offset-2 col-md-6 offset-md-3">
@@ -15,7 +15,7 @@
 
                 <!-- Decrement Question Number -->
                 <button 
-                  @click.prevent="" 
+                  @click.prevent="decrementCounter" 
                   class="btn btn-secondary"
                 >
                   -
@@ -25,13 +25,13 @@
             </div>
 
             <!-- v-model to display question number -->
-            <input value="1" type="number" class="text-center form-control" readonly>
+            <input v-model="index" value="1" type="number" class="text-center form-control" readonly>
             <div class="input-group-append">
               <span class="input-group-text p-0">
 
                 <!-- Increment Question Number -->
                 <button 
-                  @click.prevent="" 
+                  @click.prevent="incrementCounter" 
                   class="btn btn-secondary"
                 >
                   +
@@ -45,7 +45,7 @@
 
       <!-- Post Question -->
       <button 
-        @click.prevent="" 
+        @click.prevent="postQuestion" 
         class="btn btn-primary"
       >
         Post Next Question
@@ -57,7 +57,30 @@
 
 <script>
 export default {
-
+  data() {
+    return {
+      index: 1
+    }
+  },
+  methods: {
+    postQuestion() {
+      return this.$store.dispatch('postQuestion', this.index - 1)
+    },
+    incrementCounter() {
+      let questionCount = this.$store.getters.getQuestionCount;
+      if (this.index >= questionCount) {
+        return this.index = 1;
+      }
+      return this.index++;
+    },
+    decrementCounter() {
+      let questionCount = this.$store.getters.getQuestionCount;
+      if (this.index <= 1) {
+        return this.index = questionCount;
+      }
+      return this.index--;
+    }
+  }
 }
 </script>
 
