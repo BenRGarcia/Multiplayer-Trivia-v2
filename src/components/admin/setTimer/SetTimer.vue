@@ -42,7 +42,6 @@ export default {
       this.inputSeconds = null;
       // Ignore empty inputs
       if (setSeconds !== null) {
-        console.log(`setSeconds: ${setSeconds}`)
         return this.$store.dispatch('setTimerInitial', setSeconds);
       }
     }

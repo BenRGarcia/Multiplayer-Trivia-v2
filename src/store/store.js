@@ -145,13 +145,11 @@ export const store = new Vuex.Store({
   },
   actions: {
     deleteAllPlayers(context) {
-      console.log(`deleteAllPlayers was called`);
       return firebase.database().ref('/players').set({});
     },
     resetAllScores(context) {
       // Ignore input when no players exist
       if (context.state._players) {
-        console.log(`resetAllScores was called`);
         // Iterate over players
         for (let playerKey in context.state._players) {
           let points = 0;
