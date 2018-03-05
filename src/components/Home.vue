@@ -15,6 +15,15 @@
       <Leaderboard/>
     </div>
 
+    <!-- 'ADMIN' Button -->
+    <div class="col-12 fixed-bottom">
+      <router-link to="/admin">
+        <button class="btn btn-danger">
+          {{ adminText }}
+        </button>
+      </router-link>
+    </div>
+
   </div>
 </template>
 
@@ -29,7 +38,8 @@ export default {
   },
   data() {
     return {
-      btnText: "PLAY!"
+      btnText: "PLAY!",
+      adminText: "Trivia Host Dashboard"
     }
   }
 }
