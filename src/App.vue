@@ -25,6 +25,12 @@ export default {
   name: 'App',
   components: {
     PageTitle
+  },
+  created() {
+    this.$store.dispatch('getFirebaseChat');
+    this.$store.dispatch('getFirebasePlayers');
+    this.$store.dispatch('getFirebaseTimer');
+    this.$store.dispatch('getFirebaseTrivia');
   }
 }
 </script>
