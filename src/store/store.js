@@ -319,31 +319,26 @@ export const store = new Vuex.Store({
      * FIREBASE *
      ************/
     getFirebaseQuestionBank: function (context) {
-      console.log(`getFirebaseQuestionBank fired`);
       firebase.database().ref('/questionBank').on("value", snapshot => {
         return context.commit('setQuestionBank', snapshot.val());
       });
     },
     getFirebaseChat: function(context) {
-      console.log(`getFirebaseChat fired`);
       firebase.database().ref('/chat').on("value", snapshot => {
         return context.commit('setChat', snapshot.val());
       });
     },
     getFirebasePlayers: function(context) {
-      console.log(`getFirebasePlayers fired`);
       firebase.database().ref('/players').on("value", snapshot => {
         return context.commit('setPlayers', snapshot.val())
       });
     },
     getFirebaseTimer: function(context) {
-      console.log(`getFirebaseTimer fired`);
       firebase.database().ref('/timer').on("value", snapshot => {
         return context.commit('setTimer', snapshot.val());
       });
     },
     getFirebaseTrivia: function(context) {
-      console.log(`getFirebaseTrivia fired`);
       firebase.database().ref('/trivia').on("value", snapshot => {
         return context.commit('setTrivia', snapshot.val());
       });
